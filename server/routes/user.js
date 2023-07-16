@@ -4,10 +4,7 @@ const userController = require('../controllers/userController');
 
 // create, find, update, delete
 router.get('/', userController.view);
-
-// // Router
-// router.get('/', (req, res) => {
-//     res.render('home.hbs');
-// });
-
+router.post('/', userController.find);
+router.get('/adduser', userController.form);
+router.post('/adduser', userController.create);
 module.exports = router;
