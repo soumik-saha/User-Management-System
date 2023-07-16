@@ -18,13 +18,13 @@ exports.view = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err; // not connected!
         console.log('Connected as ID ' + connection.threadId);
-        
+
         // Use the connection
         connection.query('SELECT * FROM users WHERE status = "active"', (err, rows) => {
             // What done with the connection, release it
             connection.release();
 
-            if(!err) {
+            if (!err) {
                 res.render('home', { rows });
             }
             else {
@@ -43,7 +43,7 @@ exports.find = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err; // not connected!
         console.log('Connected as ID ' + connection.threadId);
-        
+
         let searchTerm = req.body.search;
 
         // Use the connection
@@ -51,7 +51,7 @@ exports.find = (req, res) => {
             // What done with the connection, release it
             connection.release();
 
-            if(!err) {
+            if (!err) {
                 res.render('home', { rows });
             }
             else {
@@ -63,7 +63,7 @@ exports.find = (req, res) => {
         });
     });
 
-    
+
 
 }
 
@@ -80,7 +80,7 @@ exports.create = (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err; // not connected!
         console.log('Connected as ID ' + connection.threadId);
-        
+
         let searchTerm = req.body.search;
 
         // Use the connection
@@ -88,8 +88,85 @@ exports.create = (req, res) => {
             // What done with the connection, release it
             connection.release();
 
-            if(!err) {
+            if (!err) {
                 res.render('add-user', { alert: 'User added successfully.' });
+            }
+            else {
+                console.log(err);
+            }
+
+            console.log('This data from users table: \n', rows);
+
+        });
+    });
+}
+
+
+// Edit User
+exports.edit = (req, res) => {
+    // res.render('edit-user');
+
+    // Connect to Database
+    pool.getConnection((err, connection) => {
+        if (err) throw err; // not connected!
+        console.log('Connected as ID ' + connection.threadId);
+
+        // Use the connection
+        connection.query('SELECT * FROM users WHERE id = ?', [req.params.id], (err, rows) => {
+            // What done with the connection, release it
+            connection.release();
+
+            if (!err) {
+                res.render('edit-user', { rows });
+            }
+            else {
+                console.log(err);
+            }
+
+            console.log('This data from users table: \n', rows);
+
+        });
+    });
+}
+
+// Update User
+exports.update = (req, res) => {
+    const { first_name, last_name, email, phone, comments } = req.body;
+
+    // Connect to Database
+    pool.getConnection((err, connection) => {
+        if (err) throw err; // not connected!
+        console.log('Connected as ID ' + connection.threadId);
+
+        // Use the connection
+        connection.query('UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ?, comments = ? WHERE id = ?', [first_name, last_name, email, phone, comments, req.params.id], (err, rows) => {
+            // What done with the connection, release it
+            connection.release();
+
+            if (!err) {
+                // res.render('edit-user', { rows });
+                // Connect to Database
+                pool.getConnection((err, connection) => {
+                    if (err) throw err; // not connected!
+                    console.log('Connected as ID ' + connection.threadId);
+
+                    // Use the connection
+                    connection.query('SELECT * FROM users WHERE id = ?', [req.params.id], (err, rows) => {
+                        // What done with the connection, release it
+                        connection.release();
+
+                        if (!err) {
+                            res.render('edit-user', { rows, alert: `${first_name} has been updated.` });
+                        }
+                        else {
+                            console.log(err);
+                        }
+
+                        console.log('This data from users table: \n', rows);
+
+                    });
+                });
+
             }
             else {
                 console.log(err);
