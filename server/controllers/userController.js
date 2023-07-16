@@ -232,3 +232,29 @@ exports.delete = (req, res) => {
     });
 
 }
+
+
+// View Users
+exports.viewall = (req, res) => {
+    // Connect to Database
+    pool.getConnection((err, connection) => {
+        if (err) throw err; // not connected!
+        console.log('Connected as ID ' + connection.threadId);
+
+        // Use the connection
+        connection.query('SELECT * FROM users WHERE id = ?', [req.params.id], (err, rows) => {
+            // What done with the connection , release it
+            connection.release();
+
+            if (!err) {
+                res.render('view-user', { rows });
+            }
+            else {
+                console.log(err);
+            }
+
+            console.log('This data from users table: \n', rows);
+
+        });
+    });
+}
