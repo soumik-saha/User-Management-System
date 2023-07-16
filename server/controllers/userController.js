@@ -218,8 +218,9 @@ exports.delete = (req, res) => {
             connection.release();
 
             if (!err) {
-                let removedUser = encodeURIComponent('User successfully removed.');
-                res.redirect('/?removed=' + removedUser);
+                // let removedUser = encodeURIComponent('User successfully removed.');
+                // res.redirect('/?removed=' + removedUser);
+                res.redirect('/');
             }
             else {
                 console.log(err);
