@@ -177,3 +177,57 @@ exports.update = (req, res) => {
         });
     });
 }
+
+
+// Delete User
+exports.delete = (req, res) => {
+    // res.render('edit-user');
+
+    // Connect to Database
+    // pool.getConnection((err, connection) => {
+    //     if (err) throw err; // not connected!
+    //     console.log('Connected as ID ' + connection.threadId);
+
+    //     // Use the connection
+    //     connection.query('DELETE FROM users WHERE id = ?', [req.params.id], (err, rows) => {
+    //         // What done with the connection, release it
+    //         connection.release();
+
+    //         if (!err) {
+    //             res.redirect('/');
+    //         }
+    //         else {
+    //             console.log(err);
+    //         }
+
+    //         console.log('This data from users table: \n', rows);
+
+    //     });
+    // });
+
+
+
+    // Connect to Database
+    pool.getConnection((err, connection) => {
+        if (err) throw err; // not connected!
+        console.log('Connected as ID ' + connection.threadId);
+
+        // Use the connection
+        connection.query('UPDATE users SET status = ? WHERE id = ?', ['removed', req.params.id], (err, rows) => {
+            // What done with the connection, release it
+            connection.release();
+
+            if (!err) {
+                let removedUser = encodeURIComponent('User successfully removed.');
+                res.redirect('/?removed=' + removedUser);
+            }
+            else {
+                console.log(err);
+            }
+
+            console.log('This data from users table: \n', rows);
+
+        });
+    });
+
+}
