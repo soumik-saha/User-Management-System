@@ -2,6 +2,7 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const mysql2 = require('mysql2');
+const routes = require('./server/routes/user');
 
 require('dotenv').config();
 
@@ -17,6 +18,9 @@ app.use(bodyParser.json());
 
 // Access all static files
 app.use(express.static('public'))  
+
+// Accessing routers
+app.use('/', routes);
 
 // Templating Engine
 app.engine('hbs', exphbs.engine({ extname: '.hbs' }));
@@ -38,12 +42,6 @@ pool.getConnection((err, connection) => {
 });
 
 
-
-
-// Router
-app.get('/', (req, res) => {
-    res.render('home.hbs');
-});
 
 
 app.listen(port, () => console.log('Listening on port', port));

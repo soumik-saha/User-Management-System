@@ -10,40 +10,21 @@
     </tr>
   </thead>
   <tbody>
+
+    {{#each rows}}
     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>guest@mdo.com</td>
-      <td>+91 7896541230</td>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.first_name}}</td>
+      <td>{{this.last_name}}</td>
+      <td>{{this.email}}</td>
+      <td>{{this.phone}}</td>
       <td class="text-end">
         <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-eye"></i> View</a>
         <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-pencil"></i> Edit</a>
         <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-person-x"></i> Delete</a>
       </td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>guest@fat.com</td>
-      <td>+91 7896541230</td>
-      <td class="text-end">
-        <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-eye"></i> View</a>
-        <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-pencil"></i> Edit</a>
-        <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-person-x"></i> Delete</a>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>guest@twitter.com</td>
-      <td>+91 7896541230</td>
-      <td class="text-end">
-        <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-eye"></i> View</a>
-        <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-pencil"></i> Edit</a>
-        <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-person-x"></i> Delete</a>
-      </td>
-    </tr>
+    {{/each}}
+    
   </tbody>
 </table>
